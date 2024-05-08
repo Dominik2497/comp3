@@ -1,0 +1,27 @@
+%import common (NEWLINE, WS_INLINE, SH_COMMENT, CNAME, INT)
+%ignore WS_INLINE
+%ignore SH_COMMENT
+
+exp_2: INT                         -> int_exp
+     | "(" exp ")"                 -> paren_exp
+     | "-" exp_2                   -> neg_exp  
+     | var
+     | CNAME "(" exp_list? ")"     -> call_function
+
+exp_1: exp_1 "*" exp_2             -> mul_exp
+     | exp_2                       -> exp_2
+
+exp: exp "+" exp_1                 -> add_exp
+   | exp_1                         -> exp_1
+   | exp "-" exp_1                 -> sub_exp
+
+exp_list: exp ("," exp)*
+
+var: CNAME                         -> var_ident
+
+stmt: CNAME "=" exp NEWLINE        -> assign 
+    | exp NEWLINE                  -> expr_stmt   
+
+
+lvar: NEWLINE* stmt+
+start: lvar
