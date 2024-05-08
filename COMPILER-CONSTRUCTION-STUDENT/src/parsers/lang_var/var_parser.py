@@ -1,12 +1,9 @@
 from lark import ParseTree
 from lang_var.var_ast import *
 from parsers.common import *
-#import common.log as log
 
 grammarFile = "./src/parsers/lang_var/var_grammar.lark"
 
-
-        
 def parseModule(args: ParserArgs) -> mod:
     stmt_list: list[stmt] = []
     parseTree = parseAsTree(args, grammarFile, 'lvar')
